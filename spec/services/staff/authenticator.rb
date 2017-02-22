@@ -15,9 +15,9 @@ describe Staff::Authenticator do
       m = build(:staff_member, password: nil)
       expect(Staff::Authenticator.new(m).authenticate(nil)).to be_falsey
     end
-    example '停止フラグが立っていればfalseを返す' do
+    example '停止フラグが立っていてもtrueを返す' do
       m = build(:staff_member, suspended: true)
-      expect(Staff::Authenticator.new(m).authenticate('pw')).to be_falsey
+      expect(Staff::Authenticator.new(m).authenticate('pw')).to be_truthy
     end
     example '開始前ならfalseを返す' do
       m = build(:staff_member, start_date: Date.tomorrow)
