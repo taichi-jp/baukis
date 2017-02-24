@@ -21,7 +21,10 @@ Rails.application.routes.draw do
       # delete 'session' => 'sessions#destroy'
       # ↓書き換え
       resource :session, only: [ :create, :destroy ]
-      resources :staff_members
+      resources :staff_members do
+        resources :staff_events, only: [ :index ]
+      end
+      resources :staff_events, only: [ :index ]
     end
   end
 
