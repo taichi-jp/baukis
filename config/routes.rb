@@ -9,7 +9,8 @@ Rails.application.routes.draw do
       # delete 'session' => 'sessions#destroy'
       # ↓書き換え
       resource :session, only: [ :create, :destroy ]
-      resource :account, except: [ :new, :create, :destroy ]
+      resource :account, except: [ :new, :create ]
+      resource :password, only: [ :show, :edit, :update ]
     end
   end
 
