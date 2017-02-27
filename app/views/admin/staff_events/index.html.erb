@@ -21,7 +21,12 @@
        <th>種別</th>
        <th>日時</th>
      </tr>
-     <%= render partial: 'event', collection: @events %>
+     <!-- <%= render partial: 'event', collection: @events %> -->
+     <!-- HtmlBuilderで置き換え -->
+     <% @events.each do |event| %>
+        <%= StaffEventPresenter.new(event, self).table_row %>
+     <% end %>
+     <!---->
      <% if @events.empty? %>
        <tr>
          <%= content_tag(:td, '記録がありません',
