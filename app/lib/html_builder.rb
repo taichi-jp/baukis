@@ -4,7 +4,7 @@ module HtmlBuilder
     root = Nokogiri::HTML::DocumentFragment.parse('')
     Nokogiri::HTML::Builder.with(root) do |doc|
       if tag_name
-        doc.send(tag.name options) do
+        doc.send(tag_name, options) do
           yield(doc)
         end
       else
