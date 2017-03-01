@@ -40,6 +40,8 @@ gem 'kaminari', '~> 0.15.1'
 gem 'date_validator', '~> 0.7.0'
 gem 'email_validator', '~> 1.4.0'
 
+gem 'jquery-ui-rails', '~> 4.2.1'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

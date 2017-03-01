@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    errors:
+      messages:
+        invalid: が無効です。 #format, email
+        blank: が入力されていません。 #presence

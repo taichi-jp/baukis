@@ -1,50 +1,13 @@
 <%= markup do |m|
   p = StaffMemberFormPresenter.new(f, self)
-
-  # <div class="notes">
-  #   <span class="mark">*</span> 印のついた項目は入力必須です。
-  # </div>
   m << p.notes
-  # <div>
-  # <%= f.label :email, 'メールアドレス', class: 'required' %>
-  # <%= f.text_field :email, size: 32, required: true %>
-  # </div>
   p.with_options(required: true) do |q|###
     m << q.text_field_block(:email, 'メールアドレス', size: 32)
-    #<% if f.object.new_record? %>
-    #<div>
-    #  <%= f.label :password, 'パスワード', class: 'required' %>
-    #  <%= f.password_field :password, size: 32, required: true %>
-    #</div>
-    #<% end %>
     m << q.password_field_block(:password, 'パスワード', size: 32)
-    #FormPresenterで不要
-    #<div>
-    #  <%= f.label :family_name, '氏名', class: 'required' %>
-    #  <%= f.text_field :family_name, required: true %>
-    #  <%= f.text_field :given_name, required: true %>
-    #</div>
-    #<div>
-    #  <%= f.label :family_name_kana, 'フリガナ', class: 'required' %>
-    #  <%= f.text_field :family_name_kana, required: true %>
-    #  <%= f.text_field :given_name_kana, required: true %>
-    #</div> -->
     m << q.full_name_block(:family_name, :given_name, '氏名')
     m << q.full_name_block(:family_name_kana, :given_name_kana, 'フリガナ')
-    #<div>
-    #  <%= f.label :start_date, '開始日', class: 'required' %>
-    #  <%= f.text_field :start_date, required: true %>
-    #</div>
     m << q.date_field_block(:start_date, '開始日')
-    #<div>
-    #  <%= f.label :end_date, '終了日' %>
-    #  <%= f.text_field :end_date %>
-    #</div>
     m << q.date_field_block(:end_date, '終了日', required: false)####
-    #<div class="check-boxes">
-    #  <%= f.check_box :suspended %>
-    #  <%= f.label :suspended, 'アカウント停止' %>
-    #</div>
   end
   m << p.check_boxes
 end %>
