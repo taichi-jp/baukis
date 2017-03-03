@@ -1,8 +1,5 @@
-$(document).on 'page:change', ->
-  console.log 'test'
-  alert('a')
+$(document).on 'turbolinks:load', ->
   $('form.edit_staff_member').on 'click', '#enable-password-field', ->
-    console.log 'test'
     $('#enable-password-field').hide()
     $('#disable-password-field').show()
     $('#staff_member_password').removeAttr('disabled')
