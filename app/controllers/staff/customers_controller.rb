@@ -3,4 +3,16 @@ class Staff::CustomersController < Staff::Base
     @customers = Customer.order(:family_name_kana, :given_name_kana)
       .page(params[:page])#ページネーション
   end
+
+  def show
+    @customer = Customer.find(params[:id])
+  end
+
+  def new
+    @customer_form = Staff::CustomerForm.new
+  end
+
+  def edit
+    @customer_form = Staff::CustomerForm.new(Customer.find(params[:id]))
+  end
 end
