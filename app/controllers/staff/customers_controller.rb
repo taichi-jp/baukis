@@ -1,7 +1,9 @@
 class Staff::CustomersController < Staff::Base
   def index
-    @customers = Customer.order(:family_name_kana, :given_name_kana)
-      .page(params[:page])#ページネーション
+    @search_form = Staff::CustomerSearchForm.new(params[:search])
+    # @customers = Customer.order(:family_name_kana, :given_name_kana)
+    #   .page(params[:page])#ページネーション
+    @customers = @search_form.search.page(params[:page])#検索機能追加
   end
 
   def show
