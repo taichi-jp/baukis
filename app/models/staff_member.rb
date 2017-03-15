@@ -5,6 +5,7 @@ class StaffMember < ActiveRecord::Base
   include PasswordHolder#passwordの正規化と検証をモジュール化
 
   has_many :events, class_name: 'StaffEvent', dependent: :destroy
+  has_many :programs, foreign_key: 'registrant_id', dependent: :restrict_with_exception
   # before_validation do
   #   self.email = normalize_as_email(email)
   #   self.email_for_index = email.downcase if email
@@ -52,5 +53,9 @@ class StaffMember < ActiveRecord::Base
   def active?
     !suspended? && start_date <= Date.today &&
       (end_date.nil? || end_date > Date.today)
+  end
+
+  def deletable?
+    programs.empty?
   end
 end
