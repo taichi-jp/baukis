@@ -25,6 +25,7 @@ div#wrapper {
           }
           input[type='checkbox']+label { display: inline-block }
           input[type='radio']+label { display: inline-block }
+          span.instruction { font-size: $small; color: $dark_gray; }
         }
         div.input-block {
           input { margin-right: $narrow * 2; }

@@ -22,6 +22,22 @@ class FormPresenter
       m << decorated_label(name, label_text, options)#label(name, label_text,
         #class: options[:required] ? 'required' : nil)
       m << text_field(name, options)
+      if options[:maxlength]
+        m.span "(#{options[:maxlength]}文字以内)", class: 'instruction'
+        #ダブルクォーテーションじゃないとダメ??
+      end
+      m << error_messages_for(name)
+    end
+  end
+
+  def number_field_block(name, label_text, options = {})
+    markup(:div) do |m|
+      m << decorated_label(name, label_text, options)
+      m << form_builder.number_field(name, options)
+      if options[:max]
+        max = view_context.number_with_delimiter(options[:max].to_i)
+        m.span "(最大値：#{max})", class: 'instruction'
+      end
       m << error_messages_for(name)
     end
   end
