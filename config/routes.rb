@@ -12,7 +12,9 @@ Rails.application.routes.draw do
       resource :account, except: [ :new, :create, :destroy ]
       resource :password, only: [ :show, :edit, :update ]
       resources :customers
-      resources :programs
+      resources :programs do
+        patch :entries, on: :member#申込フラグ更新ボタン
+      end
     end
   end
 
@@ -39,6 +41,7 @@ Rails.application.routes.draw do
       root 'top#index'
       get 'login' => 'sessions#new', as: :login
       resource :session, only: [ :create, :destroy ]
+      resources :programs, only: [ :index, :show ]
     end
   end
 
