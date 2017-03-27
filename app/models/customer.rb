@@ -11,6 +11,9 @@ class Customer < ActiveRecord::Base
     class_name: 'Phone', autosave: true#個人電話番号（自宅でも勤務先でもない）
   has_many :entries, dependent: :destroy
   has_many :programs, through: :entries
+  has_many :messages
+  has_many :outbound_messages, class_name: 'CustomerMessage', foreign_key: 'customer_id'
+  has_many :inbound_messages, class_name: 'StaffMessage', foreign_key: 'customer_id'
 
   # before_validation do
   #   self.email_for_index = email.downcase if email

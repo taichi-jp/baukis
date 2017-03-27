@@ -7,14 +7,31 @@ class Customer::AccountsController < Customer::Base
     @customer_form = Customer::AccountForm.new(current_customer)
   end
 
+  #PATCH
+  def confirm
+    @customer_form = Customer::AccountForm.new(current_customer)
+    @customer_form.assign_attributes(params[:form])
+    if @customer_form.valid?#保存せずバリデーションのみ行う
+      render action: 'confirm'
+    else
+      flash.now.alert = '入力に誤りがあります。'
+      render action: 'edit'
+    end
+  end
+
+
   def update
     @customer_form = Customer::AccountForm.new(current_customer)
     @customer_form.assign_attributes(params[:form])
-    if @customer_form.save
-      flash.notice = 'アカウント情報を更新しました。'
-      redirect_to :staff_account########?
+    if params[:commit]
+      if @customer_form.save
+        flash.notice = 'アカウント情報を更新しました。'
+        redirect_to :customer_account
+      else
+        flash.now.alert = '入力に誤りがあります。'
+        render action: 'edit'
+      end
     else
-      flash.now.alert = '入力に誤りがあります。'
       render action: 'edit'
     end
   end

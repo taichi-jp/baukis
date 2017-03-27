@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315014434) do
+ActiveRecord::Schema.define(version: 20170327080150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,31 @@ ActiveRecord::Schema.define(version: 20170315014434) do
   add_index "entries", ["customer_id"], name: "index_entries_on_customer_id", using: :btree
   add_index "entries", ["program_id", "customer_id"], name: "index_entries_on_program_id_and_customer_id", unique: true, using: :btree
 
+  create_table "messages", force: true do |t|
+    t.integer  "customer_id",                     null: false
+    t.integer  "staff_member_id"
+    t.integer  "root_id"
+    t.integer  "parent_id"
+    t.string   "type",                            null: false
+    t.string   "status",          default: "new", null: false
+    t.string   "subject",                         null: false
+    t.text     "body"
+    t.text     "remarks"
+    t.boolean  "discarded",       default: false, null: false
+    t.boolean  "deleted",         default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["customer_id", "deleted", "created_at"], name: "index_messages_on_customer_id_and_deleted_and_created_at", using: :btree
+  add_index "messages", ["customer_id", "deleted", "status", "created_at"], name: "index_messages_on_c_d_s_c", using: :btree
+  add_index "messages", ["customer_id", "discarded", "created_at"], name: "index_messages_on_customer_id_and_discarded_and_created_at", using: :btree
+  add_index "messages", ["customer_id"], name: "index_messages_on_customer_id", using: :btree
+  add_index "messages", ["root_id", "deleted", "created_at"], name: "index_messages_on_root_id_and_deleted_and_created_at", using: :btree
+  add_index "messages", ["staff_member_id"], name: "index_messages_on_staff_member_id", using: :btree
+  add_index "messages", ["type", "customer_id"], name: "index_messages_on_type_and_customer_id", using: :btree
+  add_index "messages", ["type", "staff_member_id"], name: "index_messages_on_type_and_staff_member_id", using: :btree
+
   create_table "phones", force: true do |t|
     t.integer  "customer_id",                      null: false
     t.integer  "address_id"
@@ -166,6 +191,11 @@ ActiveRecord::Schema.define(version: 20170315014434) do
 
   add_foreign_key "entries", "customers", name: "entries_customer_id_fk"
   add_foreign_key "entries", "programs", name: "entries_program_id_fk"
+
+  add_foreign_key "messages", "customers", name: "messages_customer_id_fk"
+  add_foreign_key "messages", "messages", name: "messages_parent_id_fk", column: "parent_id"
+  add_foreign_key "messages", "messages", name: "messages_root_id_fk", column: "root_id"
+  add_foreign_key "messages", "staff_members", name: "messages_staff_member_id_fk"
 
   add_foreign_key "phones", "addresses", name: "phones_address_id_fk"
   add_foreign_key "phones", "customers", name: "phones_customer_id_fk"

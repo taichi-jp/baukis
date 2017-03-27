@@ -2,7 +2,7 @@ class Customer::AccountForm
   include ActiveModel::Model
                             #フォームのオプショナル用
   attr_accessor :customer, :inputs_home_address, :inputs_work_address
-  delegate :persisted?, :save, to: :customer
+  delegate :persisted?, :valid?, :save, to: :customer
 
   def initialize(customer)
     @customer = customer
@@ -23,8 +23,8 @@ class Customer::AccountForm
 
   def assign_attributes(params = {})
     @params = params
-    self.inputs_home_address = params[:inputs_home_address] == '1'#
-    self.inputs_work_address = params[:inputs_work_address] == '1'#(check_boxがonなら1と等しいのでtrueを返す)
+    self.inputs_home_address = params[:inputs_home_address].in? [ '1', 'true' ]#
+    self.inputs_work_address = params[:inputs_work_address].in? [ '1', 'true' ]##(check_boxがonなら1と等しいのでtrueを返す)#隠しフィールドではbooleanを返している
 
     customer.assign_attributes(customer_params)
 
