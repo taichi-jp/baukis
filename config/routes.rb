@@ -17,8 +17,8 @@ Rails.application.routes.draw do
       resources :programs do
         patch :entries, on: :member#申込フラグ更新ボタン
       end
-      resources :messages, only: [] do
-        get :count, on: :collection
+      resources :messages, only: [ :index, :show, :destroy ] do
+        get :inbound, :outbound, :deleted, :count, on: :collection
       end
     end
   end
