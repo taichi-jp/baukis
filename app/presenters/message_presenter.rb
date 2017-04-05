@@ -51,4 +51,24 @@ class MessagePresenter < ModelPresenter
       object.created_at.strftime('%Y/%m/%d %H:%M')
     end
   end
+
+  def tree
+    expand(object.tree.root)
+  end
+
+  private
+  def expand(node)
+    markup(:ul) do |m|
+      m.li do
+        if node.id == object.id
+          m.strong(node.subject)
+        else
+          m << link_to(node.subject, view_context.staff_message_path(node))
+        end
+        node.child_nodes.each do |c|
+          m << expand(c)
+        end
+      end
+    end
+  end
 end
