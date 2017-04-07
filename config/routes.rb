@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       end
       resources :messages, only: [ :index, :show, :destroy ] do
         get :inbound, :outbound, :deleted, :count, on: :collection
+        post :tag, on: :member
+        delete :tag, on: :member
         resource :reply, only: [ :new, :create ] do
           post :confirm
         end

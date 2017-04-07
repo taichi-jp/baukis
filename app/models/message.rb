@@ -5,6 +5,8 @@ class Message < ActiveRecord::Base
   belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
   #SimpleTreeで取得するようにする
   # has_many :children, class_name: 'Message', foreign_key: 'parent_id'
+  has_many :message_tag_links, dependent: :destroy
+  has_many :tags, -> { order(:value) }, through: :message_tag_links
 
   validates :subject, :body, presence: true
   validates :subject, length: { maximum: 80, allow_blank: true }
@@ -33,5 +35,26 @@ class Message < ActiveRecord::Base
     r = root || self
     messages = Message.where(root_id: r.id).select(:id, :parent_id, :subject)
     @tree = SimpleTree.new(r, messages)
+  end
+
+  def add_tag(label)
+    self.class.transaction do
+      tag = Tag.find_by(value: label)
+      tag ||= Tag.create!(value: label)
+      unless message_tag_links.where(tag_id: tag.id).exists?
+        message_tag_links.create!(tag_id: tag.id)
+      end
+    end
+  end
+
+  def remove_tag(label)
+    self.class.transaction do
+      if tag = Tag.find_by(value: label)
+        message_tag_links.find_by(tag_id: tag.id).destroy
+        if tag.message_tag_links.empty?
+          tag.destroy
+        end
+      end
+    end
   end
 end
