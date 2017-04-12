@@ -4,7 +4,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~>4.1.16'
 # Use postgresql as the database for Active Record
-gem 'pg'
+#gem 'pg'
+gem 'mysql2', '~> 0.3.13'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -59,4 +60,8 @@ group :test do
   gem 'capybara', '~> 2.2.1'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'database_cleaner', '~> 1.2.0'
+end
+
+group :production, :staging do
+  gem 'unicorn'
 end
